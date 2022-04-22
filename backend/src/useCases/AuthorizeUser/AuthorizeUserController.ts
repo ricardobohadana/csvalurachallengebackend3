@@ -16,17 +16,16 @@ export class AuthorizeUserController {
       if (!authorizationHeader)
         throw new Error("Cabeçalho de autorização não encontrado.");
 
-      const encodedUser = await this.authorizeUserUseCase.execute({
+      const decodedUser = await this.authorizeUserUseCase.execute({
         authorizationHeader,
       });
 
       if (next) {
         // colocando o user dentro do body
-        request.body.user = encodedUser;
+        request.body.user = decodedUser;
         next();
       } else {
-        const { exp, iat, ...user } = encodedUser;
-        return response.status(200).json({ user: user });
+        return response.status(200).json({ user: decodedUser });
       }
     } catch (err) {
       return response.status(401).json({ message: err.message });

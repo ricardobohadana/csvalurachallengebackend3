@@ -23,8 +23,22 @@ router.get("/checkAuth", (request, response) => {
 
 // users data routes
 
-router.use("/users", (request, response, next) => {
+router.get("/users", (request, response) => {
   return getUsersController.handle(request, response);
+});
+
+router.use("/user", (request, response, next) => {
+  return authorizeUserController.handle(request, response, next);
+});
+
+router.delete("/user/:userId", (request, response) => {
+  console.log(request.params.userId);
+  return;
+});
+
+router.put("/user/:userId", (request, response) => {
+  console.log(request.params.userId);
+  return;
 });
 
 // transaction routes
