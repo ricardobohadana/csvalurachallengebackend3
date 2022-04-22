@@ -11,7 +11,7 @@ export class AuthorizeUserController {
   ): Promise<Response> {
     try {
       // check if headers are present
-      const authorizationHeader = request.headers.Authorization as string;
+      const authorizationHeader = request.headers.authorization as string;
 
       if (!authorizationHeader)
         throw new Error("Cabeçalho de autorização não encontrado.");
@@ -19,12 +19,14 @@ export class AuthorizeUserController {
       const encodedUser = await this.authorizeUserUseCase.execute({
         authorizationHeader,
       });
-      // colocando o user dentro do body
-      request.body.user = encodedUser;
+
       if (next) {
+        // colocando o user dentro do body
+        request.body.user = encodedUser;
         next();
       } else {
-        return response.sendStatus(200);
+        const { exp, iat, ...user } = encodedUser;
+        return response.status(200).json({ user: user });
       }
     } catch (err) {
       return response.status(401).json({ message: err.message });

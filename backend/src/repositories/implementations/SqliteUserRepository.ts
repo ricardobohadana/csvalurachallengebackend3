@@ -5,6 +5,10 @@ import { IUsersRepository } from "../IUsersRepository";
 export class SqliteUserRepository implements IUsersRepository {
   constructor(private prismaClient: PrismaClient) {}
 
+  async getAll(): Promise<User[]> {
+    return await this.prismaClient.user.findMany();
+  }
+
   async findByEmail(email: string): Promise<User> {
     return await this.prismaClient.user.findUnique({
       where: {

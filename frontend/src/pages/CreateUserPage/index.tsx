@@ -1,7 +1,8 @@
 import React from "react";
+import { NewUserForm } from "../../components/NewUserForm";
 
 function CreateUserPage() {
-  return <div>CreateUserPage</div>;
+  return <NewUserForm isRegister={false} />;
 }
 
 export { CreateUserPage };

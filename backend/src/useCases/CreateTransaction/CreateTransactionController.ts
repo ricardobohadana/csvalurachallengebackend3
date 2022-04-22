@@ -15,7 +15,9 @@ export class CreateTransactionController {
         throw new Error("Não foi encontrado arquivo na requisição");
 
       const file = request.files.file as UploadedFile;
-      if (file.mimetype !== "text/csv")
+      // console.log(file);
+
+      if (!file.name.endsWith(".csv"))
         throw new Error("Não aceitamos arquivos com esta extensão!");
 
       const user = request.body.user as EncodedUser;
@@ -36,7 +38,6 @@ export class CreateTransactionController {
           dataTransacao: new Date(data[7]),
         };
       });
-
       await this.createTransactionUseCase.execute(listJson);
 
       return response.status(201).send();

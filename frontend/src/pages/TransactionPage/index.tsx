@@ -1,5 +1,7 @@
 import React from "react";
 
-export const TransactionPage = () => {
+const TransactionPage = () => {
   return <div>TransactionPage</div>;
 };
+
+export { TransactionPage };

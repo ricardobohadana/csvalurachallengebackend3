@@ -7,7 +7,7 @@ export class User {
   public name: string;
   public email: string;
   public password: string;
-  public transactions: Transaction[];
+  // public transactions: Transaction[];
 
   constructor(
     props: Omit<User, "id" | "password">,

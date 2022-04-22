@@ -1,7 +1,9 @@
+import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import { Card } from "../../components/Card";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import { axiosInstance } from "../../global";
+import { useAuthenticationRestrictions } from "../../hooks/useAuthenticationRestrictions";
 
 function CreateTransactionPage() {
   const noFileMessage =
@@ -12,24 +14,26 @@ function CreateTransactionPage() {
   const [file, setFile] = useState<File | null>();
   const [showError, setShowError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [successful, setSuccessful] = useState<boolean | null>(null);
+  const router = useRouter();
   const {
-    checkAuthentication,
+    // checkAuthentication,
     getAuthorizationCookie,
-    setAuthorizationCookie,
   } = useContext(AuthenticationContext);
 
+  // checar se o usuário está autenticado!
+  const shouldRedirect = useAuthenticationRestrictions();
+
   useEffect(() => {
-    setAuthorizationCookie(
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiNmZkNTBiLTc3MjYtNDNiOS1iNmJjLWU1NmFkOTIxMGVlNyIsIm5hbWUiOiJSaWNhcmRvIiwiZW1haWwiOiJ0ZXN0ZUBnbWFpbC5jb20iLCJpYXQiOjE2NTA0OTE4NDIsImV4cCI6MTY1MDQ5MjQ0Mn0.pveuJc1h52n8-c1GDm_V5tP3mDmYoLs-MDJOUwiK7ek"
-    );
-    checkAuthentication()
-      .then((resp) => console.log(resp))
-      .catch((err) => console.log(err));
-  }, []);
+    if (shouldRedirect) {
+      router.push("/users/login");
+    }
+  });
 
   function handleFileAttachment(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
-    if (!files || files[0].type !== "text/csv" || !files[0]) {
+    console.log(files);
+    if (!files || !files[0].name.endsWith(".csv") || !files[0]) {
       setShowError(true);
       return;
     }
@@ -50,12 +54,37 @@ function CreateTransactionPage() {
           ContentType: "multipart/form-data",
         },
       })
-      .then((resp) => console.log(resp.status))
-      .catch((err) => console.log(err));
+      .then((resp) => {
+        resp.status === 201 && setSuccessful(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSuccessful(false);
+      });
   }
 
   return (
     <Card title="Envio de arquivo de transação">
+      {successful === false && (
+        <div
+          className="notification is-warning"
+          onClick={() => setSuccessful(!successful)}
+        >
+          <button className="delete"></button>
+          Ocorreu um erro. As transações enviadas não foram salvas. Tente
+          novamente mais tarde
+        </div>
+      )}
+      {successful && (
+        <div
+          className="notification is-success"
+          onClick={() => setSuccessful(!successful)}
+        >
+          <button className="delete"></button>
+          Seu cadastro foi realizado com sucesso! Verifique em seu email a senha
+          que foi enviada para fazer login.
+        </div>
+      )}
       <div
         className={
           "file has-name is-fullwidth mb-2 " +
@@ -86,7 +115,7 @@ function CreateTransactionPage() {
       {showError && (
         <p className="help is-danger is-italic">
           Arquivo não carregado corretamente, vazio ou sem a extensão correta
-          ('.csv')
+          (.csv)
         </p>
       )}
       {isSuccess && (

@@ -2,12 +2,20 @@ import { resolve } from "path";
 import React, { createContext, useState } from "react";
 import { axiosInstance } from "../global";
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
 interface AuthContextType {
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-  checkAuthentication: () => Promise<boolean>;
+  // checkAuthentication: () => Promise<boolean>;
   getAuthorizationCookie: () => string;
-  setAuthorizationCookie: (token: string) => void;
+  setAuthorizationCookie: (token: string, user: User) => void;
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 type Props = {
@@ -17,10 +25,16 @@ type Props = {
 const AuthenticationContext = createContext<AuthContextType>({
   isAuthenticated: false,
   setIsAuthenticated: () => false,
-  checkAuthentication: () => new Promise(() => false),
+  // checkAuthentication: () => new Promise(() => false),
   getAuthorizationCookie: () => "",
   setAuthorizationCookie: (token: string) => null,
+  user: null,
+  setUser: () => null,
 });
+
+function deleteCookie(cookieName: string) {
+  document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+}
 
 function AuthenticationContextProvider({ children }: Props) {
   function getCookie(cookieName: string) {
@@ -52,45 +66,39 @@ function AuthenticationContextProvider({ children }: Props) {
     const d = new Date();
     d.setTime(d.getTime() + minutesDuration * 60 * 1000);
     let expires = "expires=" + d.toUTCString();
-    document.cookie = `${cookieName}=${cookieValue};`;
+    document.cookie = `${cookieName}=${cookieValue};${expires}}`;
   }
 
   function getAuthorizationCookie() {
-    return getCookie("accessToken");
+    const accessToken = getCookie("accessToken");
+    if (accessToken === "") {
+      if (isAuthenticated === true) setIsAuthenticated(false);
+    } else {
+      if (isAuthenticated === false) setIsAuthenticated(true);
+    }
+
+    return accessToken;
   }
 
-  function setAuthorizationCookie(token: string) {
+  function setAuthorizationCookie(token: string, user: User) {
     var cookieName = "accessToken";
     setCookie(cookieName, token, 10);
-  }
-
-  async function checkAuthentication() {
-    let token = getAuthorizationCookie();
-
-    if (token === "") return false;
-
-    return (
-      200 ===
-      (await axiosInstance
-        .get("/checkAuth", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((resp) => resp.status)
-        .catch((err) => err.response.status))
-    );
+    setIsAuthenticated(true);
+    setUser(user);
   }
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   return (
     <AuthenticationContext.Provider
       value={{
         isAuthenticated,
         setIsAuthenticated,
-        checkAuthentication,
+        // checkAuthentication,
         getAuthorizationCookie,
         setAuthorizationCookie,
+        user,
+        setUser,
       }}
     >
       {children}
@@ -98,4 +106,4 @@ function AuthenticationContextProvider({ children }: Props) {
   );
 }
 
-export { AuthenticationContext, AuthenticationContextProvider };
+export { AuthenticationContext, AuthenticationContextProvider, deleteCookie };
