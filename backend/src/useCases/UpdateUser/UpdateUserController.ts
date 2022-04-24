@@ -14,6 +14,12 @@ class UpdateUserController {
         throw new Error("Os dados para atualização não foram recebidos.");
 
       await this.updateUserUseCase.execute({ id, email, name });
+      return response.status(202).json({
+        user: {
+          email,
+          name,
+        },
+      });
     } catch (error) {
       return response.status(400).json({ message: error.message });
     }

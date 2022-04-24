@@ -1,17 +1,39 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   AuthenticationContext,
   deleteCookie,
+  getCookie,
 } from "../../contexts/AuthenticationContext";
+import { axiosInstance } from "../../global";
 
 export function Navbar() {
   const { isAuthenticated, setIsAuthenticated, user, setUser } = useContext(
     AuthenticationContext
   );
+
   const router = useRouter();
   const pathname = router.pathname;
+
+  useEffect(() => {
+    axiosInstance
+      .get("/checkAuth", {
+        headers: {
+          Authorization: `Bearer ${getCookie("accessToken")}`,
+        },
+      })
+      .then((resp) => {
+        if (resp.status === 200) {
+          setIsAuthenticated(true);
+          setUser(resp.data.user);
+        }
+      })
+      .catch((err) => {
+        setIsAuthenticated(false);
+        setUser(null);
+      });
+  }, [setIsAuthenticated, setUser, isAuthenticated]);
 
   function handleLogout() {
     deleteCookie("accessToken");

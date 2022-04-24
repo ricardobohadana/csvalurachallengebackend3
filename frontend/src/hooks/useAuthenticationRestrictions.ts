@@ -4,20 +4,17 @@ import { useContext, useEffect } from "react";
 import {
   AuthenticationContext,
   deleteCookie,
+  getCookie,
 } from "../contexts/AuthenticationContext";
 import { axiosInstance } from "../global";
 
 function useAuthenticationRestrictions() {
-  const {
-    isAuthenticated,
-    setIsAuthenticated,
-    // checkAuthentication,
-    getAuthorizationCookie,
-    setUser,
-  } = useContext(AuthenticationContext);
+  const { isAuthenticated, setIsAuthenticated, setUser } = useContext(
+    AuthenticationContext
+  );
 
   useEffect(() => {
-    const token = getAuthorizationCookie();
+    const token = getCookie("accessToken");
 
     if (token === "") {
       setIsAuthenticated(false);

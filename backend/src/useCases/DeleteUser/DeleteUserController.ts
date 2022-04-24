@@ -16,7 +16,7 @@ class DeleteUserController {
         userId: deleteUserId,
         user: user,
       });
-      return response.status(202);
+      return response.sendStatus(202);
     } catch (err) {
       return response.status(400).json({ message: err.message });
     }

@@ -5,3 +5,5 @@ import { UpdateUserUseCase } from "./UpdateUserUseCase";
 const updateUserUseCase = new UpdateUserUseCase(sqliteUserRepository);
 
 const updateUserController = new UpdateUserController(updateUserUseCase);
+
+export { updateUserUseCase, updateUserController };

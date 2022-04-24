@@ -6,6 +6,14 @@ import { IUsersRepository } from "../IUsersRepository";
 export class SqliteUserRepository implements IUsersRepository {
   constructor(private prismaClient: PrismaClient) {}
 
+  async getById(userId: string): Promise<User> {
+    return await this.prismaClient.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+  }
+
   async checkExistance(id: string) {
     const count = await this.prismaClient.user.count({ where: { id: id } });
     return count > 0;

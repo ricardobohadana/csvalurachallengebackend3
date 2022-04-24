@@ -12,7 +12,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   // checkAuthentication: () => Promise<boolean>;
-  getAuthorizationCookie: () => string;
+  // getAuthorizationCookie: () => string;
   setAuthorizationCookie: (token: string, user: User) => void;
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
@@ -26,7 +26,7 @@ const AuthenticationContext = createContext<AuthContextType>({
   isAuthenticated: false,
   setIsAuthenticated: () => false,
   // checkAuthentication: () => new Promise(() => false),
-  getAuthorizationCookie: () => "",
+  // getAuthorizationCookie: () => "",
   setAuthorizationCookie: (token: string) => null,
   user: null,
   setUser: () => null,
@@ -35,24 +35,23 @@ const AuthenticationContext = createContext<AuthContextType>({
 function deleteCookie(cookieName: string) {
   document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
 }
+function getCookie(cookieName: string) {
+  let name = cookieName + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == " ") {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
 function AuthenticationContextProvider({ children }: Props) {
-  function getCookie(cookieName: string) {
-    let name = cookieName + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(";");
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == " ") {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
-  }
-
   function checkCookie(cookieName: string) {
     let cookie = getCookie(cookieName);
     return cookie != "";
@@ -69,16 +68,16 @@ function AuthenticationContextProvider({ children }: Props) {
     document.cookie = `${cookieName}=${cookieValue};${expires}}`;
   }
 
-  function getAuthorizationCookie() {
-    const accessToken = getCookie("accessToken");
-    if (accessToken === "") {
-      if (isAuthenticated === true) setIsAuthenticated(false);
-    } else {
-      if (isAuthenticated === false) setIsAuthenticated(true);
-    }
+  // function getAuthorizationCookie() {
+  //   const accessToken = getCookie("accessToken");
+  //   if (accessToken === "") {
+  //     if (isAuthenticated === true) setIsAuthenticated(false);
+  //   } else {
+  //     if (isAuthenticated === false) setIsAuthenticated(true);
+  //   }
 
-    return accessToken;
-  }
+  //   return accessToken;
+  // }
 
   function setAuthorizationCookie(token: string, user: User) {
     var cookieName = "accessToken";
@@ -95,7 +94,7 @@ function AuthenticationContextProvider({ children }: Props) {
         isAuthenticated,
         setIsAuthenticated,
         // checkAuthentication,
-        getAuthorizationCookie,
+        // getAuthorizationCookie,
         setAuthorizationCookie,
         user,
         setUser,
@@ -106,4 +105,9 @@ function AuthenticationContextProvider({ children }: Props) {
   );
 }
 
-export { AuthenticationContext, AuthenticationContextProvider, deleteCookie };
+export {
+  AuthenticationContext,
+  AuthenticationContextProvider,
+  deleteCookie,
+  getCookie,
+};

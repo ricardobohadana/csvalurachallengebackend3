@@ -1,7 +1,10 @@
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import { Card } from "../../components/Card";
-import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import {
+  AuthenticationContext,
+  getCookie,
+} from "../../contexts/AuthenticationContext";
 import { axiosInstance } from "../../global";
 import { useAuthenticationRestrictions } from "../../hooks/useAuthenticationRestrictions";
 
@@ -50,7 +53,7 @@ function CreateTransactionPage() {
     axiosInstance
       .post("/transactions", form, {
         headers: {
-          Authorization: `Bearer ${getAuthorizationCookie()}`,
+          Authorization: `Bearer ${getCookie("accessToken")}`,
           ContentType: "multipart/form-data",
         },
       })

@@ -7,4 +7,5 @@ export interface IUsersRepository {
   getAll(): Promise<Array<User>>;
   delete(userId: string): Promise<void>;
   update(user: MinimumUser);
+  getById(userId: string): Promise<User>;
 }
