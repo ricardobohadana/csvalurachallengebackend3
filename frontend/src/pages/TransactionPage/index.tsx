@@ -2,13 +2,17 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { Card } from "../../components/Card";
-import { getCookie } from "../../contexts/AuthenticationContext";
+import { getCookie, User } from "../../contexts/AuthenticationContext";
 import { axiosInstance } from "../../global";
 
 interface TransactionGroup {
   dataCadastro: Date;
-  numOfTransactions: number;
-  userName: string;
+  numDeTransacoes: number;
+  user: {
+    name: string;
+    email: string;
+    id: string;
+  };
 }
 
 const TransactionPage = () => {
@@ -60,8 +64,8 @@ const TransactionPage = () => {
               Quantidade de Transações
             </th>
             <th colSpan={2} style={{ textAlign: "right" }}>
-              <Link href="/users/create" passHref>
-                <a className="button is-light is-secondary">Novo Usuário</a>
+              <Link href="/transfers/create" passHref>
+                <a className="button is-light is-secondary">Enviar CSV</a>
               </Link>
             </th>
           </tr>
@@ -75,14 +79,17 @@ const TransactionPage = () => {
               datetime.toLocaleTimeString();
             return (
               <tr key={index}>
-                <td className="is-vcentered">{g.userName}</td>
+                <td className="is-vcentered">{g.user.name}</td>
                 <td className="is-vcentered">{datetimeStr}</td>
                 <td className="is-vcentered" style={{ textAlign: "right" }}>
-                  {g.numOfTransactions}
+                  {g.numDeTransacoes}
                 </td>
                 <td style={{ textAlign: "right" }}>
                   {" "}
-                  <Link href="" passHref>
+                  <Link
+                    href={`/transfers/${g.user.id}/${g.dataCadastro}`}
+                    passHref
+                  >
                     <a className="button is-light is-warning">Detalhes</a>
                   </Link>
                 </td>

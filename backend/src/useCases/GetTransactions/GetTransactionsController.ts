@@ -1,12 +1,24 @@
 import { Request, Response } from "express";
-import { GetTransactionsUseCase } from "./GetTransactionGroupsUseCase";
+import { GetTransactionsUseCase } from "./GetTransactionsUseCase";
 
 class GetTransactionsController {
   constructor(private getTransactionsUseCase: GetTransactionsUseCase) {}
 
   async handle(request: Request, response: Response) {
     try {
-      const data = await this.getTransactionsUseCase.execute();
+      const { userId, dataCadastro } = request.query;
+
+      if (!userId || !dataCadastro)
+        return response.status(400).json({
+          message:
+            "Não foram enviados os parâmtros necessários (userId e dataCadastro)",
+        });
+
+      const data = await this.getTransactionsUseCase.execute({
+        userId: userId as string,
+        dataCadastro: new Date(dataCadastro as string),
+      });
+
       if (!data) {
         return response
           .status(204)
