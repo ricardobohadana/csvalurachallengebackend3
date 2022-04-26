@@ -4,6 +4,8 @@ import { authorizeUserController } from "./useCases/AuthorizeUser";
 import { createTransactionController } from "./useCases/CreateTransaction";
 import { createUserController } from "./useCases/CreateUser";
 import { deleteUserController } from "./useCases/DeleteUser";
+import { getTransactionGroupsController } from "./useCases/GetTransactionGroups";
+import { getTransactionsController } from "./useCases/GetTransactions";
 import { getUserController } from "./useCases/GetUser";
 import { getUsersController } from "./useCases/GetUsers";
 import { updateUserController } from "./useCases/UpdateUser";
@@ -58,7 +60,14 @@ router.use("/transactions", (request, response, next) => {
 });
 router.post("/transactions", (request, response) => {
   return createTransactionController.handle(request, response);
-  return response.status(200).json(request.body);
+  // return response.status(200).json(request.body);
 });
 
+router.get("/transactions", (request, response) => {
+  return getTransactionGroupsController.handle(request, response);
+});
+
+router.get("/transactions/details", (request, response) => {
+  return getTransactionsController.handle(request, response);
+});
 export { router };

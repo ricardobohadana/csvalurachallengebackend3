@@ -13,9 +13,9 @@ export class CreateTransactionUseCase {
 
     if (!isValid.every((val) => val === true))
       throw new Error(`A transação tem valores faltando.`);
-
+    const dataCadastro = new Date();
     const transactions = data.map((transfer) => {
-      return new Transaction(transfer);
+      return new Transaction(transfer, dataCadastro);
     });
 
     await this.transactionRepository.saveList(transactions);

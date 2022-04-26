@@ -16,9 +16,16 @@ export class Transaction {
   public contaDestino: string;
   public valorTransacao: string;
   public dataTransacao: Date;
+  public dataCadastro: Date | null;
 
-  constructor(props: Omit<Transaction, "id">, id?: string) {
+  constructor(
+    props: Omit<Transaction, "id" | "dataCadastro">,
+    dataCadastro: Date,
+    id?: string
+  ) {
     Object.assign(this, props);
+
+    this.dataCadastro = dataCadastro;
 
     if (!id) {
       this.id = v4();

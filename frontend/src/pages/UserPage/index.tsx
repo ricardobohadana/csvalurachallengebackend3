@@ -87,12 +87,12 @@ export function UserPage() {
             "Ocorreu um erro, tente novamente mais tarde."}
         </div>
       )}
-      <table className="table">
+      <table className="table is-hoverable is-fullwidth">
         <thead>
           <tr>
-            <th>Id do Usuário</th>
-            <th>Nome</th>
-            <th>Email</th>
+            <th className="is-vcentered">Id do Usuário</th>
+            <th className="is-vcentered">Nome</th>
+            <th className="is-vcentered">Email</th>
             <th colSpan={2}>
               <Link href="/users/create" passHref>
                 <a className="button is-light is-secondary">Novo Usuário</a>
@@ -104,15 +104,15 @@ export function UserPage() {
           {users?.map((u, key) => {
             return (
               <tr key={key}>
-                <td>{u.id}</td>
-                <td>{u.name}</td>
-                <td>{u.email}</td>
-                <td>
+                <td className="is-vcentered">{u.id}</td>
+                <td className="is-vcentered">{u.name}</td>
+                <td className="is-vcentered">{u.email}</td>
+                <td className="is-vcentered">
                   <Link href={`/users/${u.id}`}>
                     <a className="button is-light is-warning">Editar</a>
                   </Link>
                 </td>
-                <td>
+                <td className="is-vcentered">
                   <button
                     id={u.id}
                     className="button is-light is-danger"
