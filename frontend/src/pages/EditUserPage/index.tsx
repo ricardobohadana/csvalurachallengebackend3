@@ -79,7 +79,9 @@ function EditUserPage({ userId }: Props) {
   };
 
   useEffect(() => {
-    console.log(userId);
+    if (!userId) return;
+    if (userId === "9a0d0a7f-695b-4231-81cb-d30f3b65ad05")
+      router.push("/users");
     axiosInstance
       .get(`/user/${userId}`, {
         headers: {
@@ -93,7 +95,7 @@ function EditUserPage({ userId }: Props) {
         console.log(err.response.data);
         router.push("/users/login");
       });
-  }, [userId]);
+  }, [userId, router]);
 
   return (
     <Card title="Edição de usuário">

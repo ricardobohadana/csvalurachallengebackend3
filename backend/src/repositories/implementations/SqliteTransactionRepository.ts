@@ -6,6 +6,19 @@ import { ITransactionRepository } from "../ITransactionRepository";
 export class SqliteTransactionRepository implements ITransactionRepository {
   constructor(private prismaClient: PrismaClient) {}
 
+  async getByDate(date: Date): Promise<Transaction[]> {
+    const data = await this.prismaClient.transaction.findMany();
+
+    const filtered = data.filter(
+      (d) =>
+        d.dataTransacao.getFullYear() === date.getFullYear() &&
+        d.dataTransacao.getMonth() === date.getMonth() &&
+        d.dataTransacao.getDate() === date.getDate()
+    );
+
+    return filtered;
+  }
+
   async getByUserIdAndDate(
     userId: string,
     dataCadastro: Date
@@ -16,7 +29,7 @@ export class SqliteTransactionRepository implements ITransactionRepository {
       .replace("T", " ")
       .replace(".000Z", "");
 
-    const query = Prisma.sql`SELECT * FROM 'Transaction' WHERE userId=${userId} AND dataCadastro=${date}`;
+    const query = Prisma.sql`SELECT * FROM 'Transaction' WHERE dataTransacao=${date}`;
 
     return (await this.prismaClient.$queryRaw(query)) as Transaction[];
   }
@@ -29,12 +42,18 @@ export class SqliteTransactionRepository implements ITransactionRepository {
     const data = await this.prismaClient.transaction.groupBy({
       by: ["dataCadastro", "userId"],
       orderBy: {
-        dataCadastro: "desc",
+        _min: {
+          dataTransacao: "desc",
+        },
       },
       _count: {
         id: true,
       },
+      _min: {
+        dataTransacao: true,
+      },
     });
+
     const userData = await this.prismaClient.user.findMany();
 
     const returnData = data.map((d) => {
@@ -44,6 +63,7 @@ export class SqliteTransactionRepository implements ITransactionRepository {
       return new TransactionGroup({
         dataCadastro: d.dataCadastro,
         numDeTransacoes: d._count.id,
+        dataTransacoes: d._min.dataTransacao,
         user: user,
       });
     });

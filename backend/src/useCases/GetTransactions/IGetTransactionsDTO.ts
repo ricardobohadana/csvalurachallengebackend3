@@ -1,6 +1,5 @@
 interface IGetTransactionsDTO {
-  userId: string;
-  dataCadastro: Date;
+  dataTransacao: Date;
 }
 
 export { IGetTransactionsDTO };

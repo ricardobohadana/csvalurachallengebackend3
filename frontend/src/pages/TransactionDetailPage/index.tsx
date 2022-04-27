@@ -6,8 +6,7 @@ import { getCookie } from "../../contexts/AuthenticationContext";
 import { axiosInstance } from "../../global";
 
 interface Props {
-  userId: string;
-  dataCadastro: string;
+  dataTransacao: string;
 }
 
 interface Transfer {
@@ -24,7 +23,7 @@ interface Transfer {
   dataCadastro: Date | null;
 }
 
-function TransactionDetailPage({ userId, dataCadastro }: Props) {
+function TransactionDetailPage({ dataTransacao }: Props) {
   const router = useRouter();
   const money = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -33,19 +32,17 @@ function TransactionDetailPage({ userId, dataCadastro }: Props) {
   const [transfers, setTransfers] = useState<Transfer[]>([]);
 
   useEffect(() => {
-    if (!userId || !dataCadastro) {
+    if (!dataTransacao) {
       return;
     }
-    console.log(userId);
-    console.log(dataCadastro);
+
     axiosInstance
       .get("/transactions/details", {
         headers: {
           Authorization: `Bearer ${getCookie("accessToken")}`,
         },
         params: {
-          userId,
-          dataCadastro,
+          dataTransacao,
         },
       })
       .then((resp) => {
@@ -58,20 +55,32 @@ function TransactionDetailPage({ userId, dataCadastro }: Props) {
         console.log(err.response);
         console.log(err.response.data);
       });
-  }, [dataCadastro, userId, router]);
+  }, [dataTransacao, router]);
 
   return (
-    <Card title="Transações detalhadas">
-      <table className="table is-hoverable is-fullwidth">
+    <Card
+      title={`Transações detalhadas do dia ${new Date(
+        dataTransacao
+      ).toLocaleDateString()}`}
+    >
+      <table className="table is-hoverable is-fullwidth is-bordered is-striped">
         <thead>
           <tr>
-            <th className="is-vcentered">Data da Transação</th>
-            <th className="is-vcentered">Banco de Origem</th>
-            <th className="is-vcentered">Agencia de Origem</th>
-            <th className="is-vcentered">Conta de Origem</th>
-            <th className="is-vcentered">Banco de Destino</th>
-            <th className="is-vcentered">Agencia de Destino</th>
-            <th className="is-vcentered">Conta de Destino</th>
+            <th colSpan={3} className="has-text-centered">
+              ORIGEM
+            </th>
+            <th colSpan={3} className="has-text-centered">
+              DESTINO
+            </th>
+            <th className="has-text-right">VALOR</th>
+          </tr>
+          <tr>
+            <th className="is-vcentered">Banco</th>
+            <th className="is-vcentered">Agencia</th>
+            <th className="is-vcentered">Conta</th>
+            <th className="is-vcentered">Banco</th>
+            <th className="is-vcentered">Agencia</th>
+            <th className="is-vcentered">Conta</th>
             <th className="is-vcentered" style={{ textAlign: "right" }}>
               Valor da Transação
             </th>
@@ -82,9 +91,6 @@ function TransactionDetailPage({ userId, dataCadastro }: Props) {
             const dataTransacao = new Date(t.dataTransacao);
             return (
               <tr key={index}>
-                <td className="is-vcentered">
-                  {dataTransacao.toLocaleString()}
-                </td>
                 <td className="is-vcentered">{t.bancoOrigem}</td>
                 <td className="is-vcentered">{t.agenciaOrigem}</td>
                 <td className="is-vcentered">{t.contaOrigem}</td>

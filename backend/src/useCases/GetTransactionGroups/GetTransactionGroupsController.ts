@@ -9,6 +9,8 @@ class GetTransactionGroupsController {
   async handle(request: Request, response: Response) {
     try {
       const data = await this.getTransactionGroupsUseCase.execute();
+      console.log(data);
+
       if (!data) {
         return response
           .status(204)

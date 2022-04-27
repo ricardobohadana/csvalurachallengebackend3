@@ -15,9 +15,15 @@ export class CreateUserUseCase {
       data.email
     );
 
-    if (userAlreadyExists) throw new Error("Este usuário já existe.");
+    if (userAlreadyExists)
+      throw new Error("Já existe um usuário cadastrado com este email.");
 
     const user = new User(data);
+
+    // cadastrando o admin
+    // if (user.name === "Admin" && user.email === "admin@email.com.br") {
+    //   user.password = "123999";
+    // }
 
     await this.usersRepository.save({
       ...user,

@@ -18,10 +18,10 @@ function CreateTransactionPage() {
   const [showError, setShowError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [successful, setSuccessful] = useState<boolean | null>(null);
+  const [error, setError] = useState("");
   const router = useRouter();
   const {
     // checkAuthentication,
-    getAuthorizationCookie,
   } = useContext(AuthenticationContext);
 
   // checar se o usuário está autenticado!
@@ -61,7 +61,8 @@ function CreateTransactionPage() {
         resp.status === 201 && setSuccessful(true);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
+        setError(err.response.data.message);
         setSuccessful(false);
       });
   }
@@ -71,11 +72,13 @@ function CreateTransactionPage() {
       {successful === false && (
         <div
           className="notification is-warning"
-          onClick={() => setSuccessful(!successful)}
+          onClick={() => setSuccessful(null)}
         >
           <button className="delete"></button>
-          Ocorreu um erro. As transações enviadas não foram salvas. Tente
-          novamente mais tarde
+          Ocorreu um erro e as transações enviadas não foram salvas.
+          <br />
+          {"Motivo: "}
+          <strong>{error ? error : "Tente novamente mais tarde"}</strong>
         </div>
       )}
       {successful && (

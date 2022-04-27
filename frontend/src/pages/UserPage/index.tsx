@@ -60,7 +60,10 @@ export function UserPage() {
       .then((data) => data.users)
       .then((users: User[]) => {
         // not show yourself
-        const validUsers = users.filter((u) => u.id !== user?.id);
+        const validUsers = users.filter(
+          (u) =>
+            u.id !== user?.id && u.id !== "9a0d0a7f-695b-4231-81cb-d30f3b65ad05"
+        );
         setUsers(validUsers);
       })
       .catch((err) => {

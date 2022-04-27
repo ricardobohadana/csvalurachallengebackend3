@@ -5,6 +5,7 @@ export interface ITransactionRepository {
   save(transaction: Transaction): Promise<void>;
   saveList(transaction: Transaction[]): Promise<void>;
   selectGroupedTransactions(): Promise<TransactionGroup[]>;
+  getByDate(date: Date): Promise<Transaction[]>;
   getAll(): Promise<Transaction[]>;
   getByUserIdAndDate(
     userId: string,

@@ -13,7 +13,8 @@ function NewUserForm({ isRegister }: Props) {
   const [isEmailIncorrect, setIsEmailIncorrect] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("placeholder");
-  const [successful, setSuccessful] = useState(false);
+  const [successful, setSuccessful] = useState<null | boolean>(null);
+  const [error, setError] = useState("");
   const router = useRouter();
   const submitButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -30,6 +31,7 @@ function NewUserForm({ isRegister }: Props) {
   }
 
   function handleSubmit() {
+    setSuccessful(null);
     if (submitButtonRef.current) {
       submitButtonRef.current.classList.add("is-loading");
     }
@@ -48,8 +50,8 @@ function NewUserForm({ isRegister }: Props) {
         }
       })
       .catch((err) => {
-        console.log(err.response.data);
-        console.log(err.response.status);
+        setError(err.response.data.message);
+        setSuccessful(false);
         if (submitButtonRef.current) {
           submitButtonRef.current.classList.remove("is-loading");
         }
@@ -141,10 +143,24 @@ function NewUserForm({ isRegister }: Props) {
           <a className="is-underlined">clicando aqui!</a>
         </Link>
       </p>
+
+      {successful === false && (
+        <div
+          className="notification is-danger is-light"
+          onClick={() => setSuccessful(null)}
+        >
+          <button className="delete"></button>
+          Ocorreu um erro no cadastro. <br />
+          Motivo:{" "}
+          <strong>
+            {error ? error : "Sem rastreabilidade para este erro."}
+          </strong>
+        </div>
+      )}
       {successful && (
         <div
-          className="notification is-success"
-          onClick={() => setSuccessful(!successful)}
+          className="notification is-success is-light"
+          onClick={() => setSuccessful(null)}
         >
           <button className="delete"></button>
           {isRegister

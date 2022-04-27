@@ -4,11 +4,8 @@ import { IGetTransactionsDTO } from "./IGetTransactionsDTO";
 class GetTransactionsUseCase {
   constructor(private transactionRepository: ITransactionRepository) {}
 
-  async execute({ userId, dataCadastro }: IGetTransactionsDTO) {
-    return await this.transactionRepository.getByUserIdAndDate(
-      userId,
-      dataCadastro
-    );
+  async execute({ dataTransacao }: IGetTransactionsDTO) {
+    return await this.transactionRepository.getByDate(dataTransacao);
   }
 }
 

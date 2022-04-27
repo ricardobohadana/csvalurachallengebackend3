@@ -6,8 +6,9 @@ import { getCookie, User } from "../../contexts/AuthenticationContext";
 import { axiosInstance } from "../../global";
 
 interface TransactionGroup {
-  dataCadastro: Date;
+  dataCadastro: string;
   numDeTransacoes: number;
+  dataTransacoes: string;
   user: {
     name: string;
     email: string;
@@ -58,9 +59,14 @@ const TransactionPage = () => {
       <table className="table is-hoverable is-fullwidth">
         <thead>
           <tr>
-            <th className="is-vcentered">Nome</th>
-            <th className="is-vcentered">Data de Importação</th>
-            <th className="is-vcentered" style={{ textAlign: "right" }}>
+            <th className="is-vcentered">Usuário responsável</th>
+            <th className="is-vcentered has-text-centered">
+              Data das Transações
+            </th>
+            <th className="is-vcentered has-text-centered">
+              Data de Importação
+            </th>
+            <th className="is-vcentered has-text-right">
               Quantidade de Transações
             </th>
             <th colSpan={2} style={{ textAlign: "right" }}>
@@ -72,24 +78,26 @@ const TransactionPage = () => {
         </thead>
         <tbody>
           {groups.map((g, index) => {
-            let datetime = new Date(g.dataCadastro);
-            let datetimeStr =
-              datetime.toLocaleDateString() +
-              " " +
-              datetime.toLocaleTimeString();
+            let datetimeCadastro = new Date(g.dataCadastro).toLocaleString();
+            let datetimeTransacao = new Date(
+              g.dataTransacoes
+            ).toLocaleDateString();
+
             return (
               <tr key={index}>
-                <td className="is-vcentered">{g.user.name}</td>
-                <td className="is-vcentered">{datetimeStr}</td>
-                <td className="is-vcentered" style={{ textAlign: "right" }}>
+                <td className="is-vcentered has-text-left">{g.user.name}</td>
+                <td className="is-vcentered has-text-centered">
+                  {datetimeTransacao}
+                </td>
+                <td className="is-vcentered has-text-centered">
+                  {datetimeCadastro}
+                </td>
+                <td className="is-vcentered has-text-right">
                   {g.numDeTransacoes}
                 </td>
                 <td style={{ textAlign: "right" }}>
                   {" "}
-                  <Link
-                    href={`/transfers/${g.user.id}/${g.dataCadastro}`}
-                    passHref
-                  >
+                  <Link href={`/transfers/${g.dataTransacoes}`} passHref>
                     <a className="button is-light is-warning">Detalhes</a>
                   </Link>
                 </td>

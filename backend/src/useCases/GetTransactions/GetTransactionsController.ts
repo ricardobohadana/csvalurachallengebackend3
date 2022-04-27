@@ -6,17 +6,15 @@ class GetTransactionsController {
 
   async handle(request: Request, response: Response) {
     try {
-      const { userId, dataCadastro } = request.query;
+      const { dataTransacao } = request.query;
 
-      if (!userId || !dataCadastro)
+      if (!dataTransacao)
         return response.status(400).json({
-          message:
-            "Não foram enviados os parâmtros necessários (userId e dataCadastro)",
+          message: "Não foi enviado o parâmtro necessário (dataTransacao)",
         });
 
       const data = await this.getTransactionsUseCase.execute({
-        userId: userId as string,
-        dataCadastro: new Date(dataCadastro as string),
+        dataTransacao: new Date(dataTransacao as string),
       });
 
       if (!data) {

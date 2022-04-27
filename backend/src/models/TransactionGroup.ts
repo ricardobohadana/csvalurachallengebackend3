@@ -11,6 +11,7 @@ class TransactionGroup {
   public user: ReducedUser;
   public dataCadastro: Date;
   public numDeTransacoes: number;
+  public dataTransacoes: Date;
 
   constructor(props: TransactionGroup) {
     Object.assign(this, props);
