@@ -73,7 +73,7 @@ export class SqliteUserRepository implements IUsersRepository {
     return await this.prismaClient.user.findFirst({
       where: {
         email: email,
-        show: 1,
+        // show: 1,
       },
     });
   }

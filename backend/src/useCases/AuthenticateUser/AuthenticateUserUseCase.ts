@@ -14,8 +14,10 @@ export class AuthenticateUserUseCase {
     // find by user by email
     const user = await this.usersRepository.findByEmail(data.email);
 
-    if (!user) throw new Error("Email não cadastrado no banco de dados");
-    const { password, transactions, ...encodedUsr } = user;
+    if (!user) {
+      throw new Error("Email não cadastrado no banco de dados");
+    }
+    const { password, ...encodedUsr } = user;
 
     const pwdMatch = isMatch(data.password, user.password);
 
