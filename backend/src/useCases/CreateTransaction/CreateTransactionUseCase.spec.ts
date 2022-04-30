@@ -1,10 +1,7 @@
 import { createTransactionUseCase } from ".";
-import { ICreateTransactionRequestDTO } from "./ICreateTransactionDTO";
+import { ICreateTransactionRequestDTO } from "./ICreateTransactionRequestDTO";
 import { faker } from "@faker-js/faker";
-import {
-  getError,
-  NoErrorThrownError,
-} from "../../__tests__/NoErrorThrownError";
+import { getError, NoErrorThrownError } from "../../helpers/NoErrorThrownError";
 faker.setLocale("pt_BR");
 
 const BANKS = [

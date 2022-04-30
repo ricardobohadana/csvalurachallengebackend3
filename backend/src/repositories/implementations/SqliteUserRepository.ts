@@ -6,6 +6,14 @@ import { IUsersRepository } from "../IUsersRepository";
 export class SqliteUserRepository implements IUsersRepository {
   constructor(private prismaClient: PrismaClient) {}
 
+  async _getById(userId: string): Promise<User> {
+    return await this.prismaClient.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+  }
+
   async getById(userId: string): Promise<User> {
     return await this.prismaClient.user.findFirst({
       where: {

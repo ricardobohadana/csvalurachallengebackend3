@@ -15,8 +15,11 @@ export class CreateUserUseCase {
       data.email
     );
 
+    if (!(data.email.includes("@") && data.email.includes(".")))
+      throw new Error("O Email recebido é inválido");
+
     if (userAlreadyExists)
-      throw new Error("Já existe um usuário cadastrado com este email.");
+      throw new Error("Já existe um usuário cadastrado com este email");
 
     const user = new User(data);
 

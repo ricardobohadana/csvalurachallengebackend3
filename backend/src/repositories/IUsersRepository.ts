@@ -8,4 +8,5 @@ export interface IUsersRepository {
   delete(userId: string): Promise<void>;
   update(user: MinimumUser);
   getById(userId: string): Promise<User>;
+  _getById(userId: string): Promise<User>;
 }

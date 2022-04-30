@@ -5,7 +5,9 @@ class GetUserUseCase {
   constructor(private usersRepository: IUsersRepository) {}
 
   async execute(id: string): Promise<User> {
-    return await this.usersRepository.getById(id);
+    const user = await this.usersRepository.getById(id);
+    if (!user) throw new Error("Não há usuários cadastrados com esse id");
+    return user;
   }
 }
 

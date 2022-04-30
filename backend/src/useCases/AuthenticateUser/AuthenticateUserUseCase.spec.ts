@@ -3,10 +3,7 @@
 import { verify } from "jsonwebtoken";
 import { authenticateUserUseCase } from ".";
 import { SECRET } from "../../app";
-import {
-  getError,
-  NoErrorThrownError,
-} from "../../__tests__/NoErrorThrownError";
+import { getError, NoErrorThrownError } from "../../helpers/NoErrorThrownError";
 import { EncodedUser } from "../AuthorizeUser/AuthorizeUserUseCase";
 
 describe("Authentication", () => {

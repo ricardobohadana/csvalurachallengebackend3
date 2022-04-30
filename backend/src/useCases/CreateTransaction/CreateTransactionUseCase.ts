@@ -1,6 +1,6 @@
 import { Transaction } from "../../entities/Transaction";
 import { ITransactionRepository } from "../../repositories/ITransactionRepository";
-import { ICreateTransactionRequestDTO } from "./ICreateTransactionDTO";
+import { ICreateTransactionRequestDTO } from "./ICreateTransactionRequestDTO";
 
 export class CreateTransactionUseCase {
   constructor(private transactionRepository: ITransactionRepository) {}

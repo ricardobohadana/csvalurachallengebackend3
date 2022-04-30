@@ -8,7 +8,7 @@ class DeleteUserUseCase {
   async execute(data: IDeleteUserDTO) {
     //
     if (data.userId === data.user.id)
-      throw new Error("Você não pode excluir o próprio usuário.");
+      throw new Error("Você não pode excluir o próprio usuário");
 
     await this.usersRepository.delete(data.userId);
   }

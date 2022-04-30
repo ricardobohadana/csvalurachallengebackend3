@@ -1,8 +1,5 @@
 import { authorizeUserUseCase } from ".";
-import {
-  getError,
-  NoErrorThrownError,
-} from "../../__tests__/NoErrorThrownError";
+import { getError, NoErrorThrownError } from "../../helpers/NoErrorThrownError";
 import { authenticateUserUseCase } from "../AuthenticateUser";
 
 describe("Authorization", () => {
