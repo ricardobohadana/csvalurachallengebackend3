@@ -6,6 +6,17 @@ import { ITransactionRepository } from "../ITransactionRepository";
 export class SqliteTransactionRepository implements ITransactionRepository {
   constructor(private prismaClient: PrismaClient) {}
 
+  async getByMonthAndYear(month: number, year: number) {
+    const data = await this.prismaClient.transaction.findMany();
+
+    const filtered = data.filter(
+      (d) =>
+        d.dataTransacao.getFullYear() === year &&
+        d.dataTransacao.getMonth() === month
+    );
+    return filtered;
+  }
+
   async getByDate(date: Date): Promise<Transaction[]> {
     const data = await this.prismaClient.transaction.findMany();
 

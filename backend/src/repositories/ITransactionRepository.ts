@@ -11,4 +11,5 @@ export interface ITransactionRepository {
     userId: string,
     dataCadastro: Date
   ): Promise<Transaction[]>;
+  getByMonthAndYear(month: number, year: number): Promise<Transaction[]>;
 }
