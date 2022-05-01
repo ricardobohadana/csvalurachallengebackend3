@@ -90,6 +90,16 @@ export function Navbar() {
               Transações
             </a>
           </Link>
+          <Link href="/report" passHref>
+            <a
+              className={
+                "navbar-item" + (pathname === "/report" ? " is-active" : "")
+              }
+            >
+              <i className="fa-solid fa-magnifying-glass-dollar mr-2"></i>
+              Análise de Transações
+            </a>
+          </Link>
         </div>
         <div className="navbar-end">
           {user && isAuthenticated ? (

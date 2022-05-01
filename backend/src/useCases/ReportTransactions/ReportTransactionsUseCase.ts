@@ -36,17 +36,21 @@ class ReportTransactionsUseCase {
       accountsMovements[index2] += Number(amount);
     });
 
-    return accountsMovements.map((m, index) => {
-      let data = accounts[index].split(" ");
-      if (m > this.accountLimit) {
-        return {
-          banco: data[0],
-          agencia: data[1],
-          conta: data[2],
-          movement: m,
-        };
-      }
-    });
+    return accountsMovements
+      .map((m, index) => {
+        let data = accounts[index].split(" ");
+        if (m > this.accountLimit) {
+          return {
+            banco: data[0],
+            agencia: data[1],
+            conta: data[2],
+            movement: m,
+          };
+        } else {
+          return null;
+        }
+      })
+      .filter((a) => a !== null);
   }
 
   private getSuspectAgencies(data: Transaction[]) {
@@ -76,16 +80,20 @@ class ReportTransactionsUseCase {
       agenciesMovements[index2] += Number(amount);
     });
 
-    return agenciesMovements.map((m, index) => {
-      let data = agencies[index].split(" ");
-      if (m > this.accountLimit) {
-        return {
-          banco: data[0],
-          agencia: data[1],
-          movement: m,
-        };
-      }
-    });
+    return agenciesMovements
+      .map((m, index) => {
+        let data = agencies[index].split(" ");
+        if (m > this.accountLimit) {
+          return {
+            banco: data[0],
+            agencia: data[1],
+            movimentacao: m,
+          };
+        } else {
+          return null;
+        }
+      })
+      .filter((a) => a !== null);
   }
 
   async execute({ month, year }: IReportTransactionsRequestDTO) {

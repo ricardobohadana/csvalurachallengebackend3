@@ -4,7 +4,7 @@ import { ReportTransactionsUseCase } from "./ReportTransactionsUseCase";
 class ReportTransactionsController {
   constructor(private reportTransactionsUseCase: ReportTransactionsUseCase) {}
 
-  async handle(request: Request, reponse: Response) {
+  async handle(request: Request, response: Response) {
     try {
       const { month, year } = request.query;
 

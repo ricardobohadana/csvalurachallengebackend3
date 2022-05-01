@@ -9,7 +9,7 @@ interface Props {
   dataTransacao: string;
 }
 
-interface Transfer {
+export interface Transfer {
   id: string;
   userId: string;
   bancoOrigem: string;

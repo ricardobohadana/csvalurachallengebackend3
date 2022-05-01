@@ -11,8 +11,9 @@ export const HomePage: NextPage = () => {
           Alura Challenge.
         </h1>
         <p>
-          Aqui é possível enviar arquivos csv contendo transações, cadastrar,
-          editar e excluir usuários
+          Aqui é possível enviar arquivos csv e xml contendo transações.
+          Cadastrar, editar e excluir usuários além de analisar movimentações,
+          contas e agências por possíveis irregularidades.
         </p>
         <hr />
       </div>
