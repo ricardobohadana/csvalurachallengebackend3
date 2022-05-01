@@ -15,7 +15,7 @@ function LoginUserPage() {
 
   const {
     isAuthenticated,
-    getAuthorizationCookie,
+    // getAuthorizationCookie,
     setAuthorizationCookie,
     setUser,
   } = useContext(AuthenticationContext);

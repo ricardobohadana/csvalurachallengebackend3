@@ -8,6 +8,7 @@ import { getTransactionGroupsController } from "./useCases/GetTransactionGroups"
 import { getTransactionsController } from "./useCases/GetTransactions";
 import { getUserController } from "./useCases/GetUser";
 import { getUsersController } from "./useCases/GetUsers";
+import { reportTransactionsController } from "./useCases/ReportTransactions";
 import { updateUserController } from "./useCases/UpdateUser";
 
 const router = Router();
@@ -69,5 +70,9 @@ router.get("/transactions", (request, response) => {
 
 router.get("/transactions/details", (request, response) => {
   return getTransactionsController.handle(request, response);
+});
+
+router.get("/transactions/report", (request, response) => {
+  return reportTransactionsController.handle(request, response);
 });
 export { router };
