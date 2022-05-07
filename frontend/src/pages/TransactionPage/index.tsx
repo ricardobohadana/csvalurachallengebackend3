@@ -71,7 +71,7 @@ const TransactionPage = () => {
             </th>
             <th colSpan={2} style={{ textAlign: "right" }}>
               <Link href="/transfers/create" passHref>
-                <a className="button is-light is-secondary">Enviar CSV</a>
+                <a className="button is-light is-secondary">Enviar CSV / XML</a>
               </Link>
             </th>
           </tr>

@@ -36,7 +36,11 @@ function CreateTransactionPage() {
   function handleFileAttachment(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
     console.log(files);
-    if (!files || !files[0].name.endsWith(".csv") || !files[0]) {
+    if (
+      !files ||
+      (!files[0].name.endsWith(".xml") && !files[0].name.endsWith(".csv")) ||
+      !files[0]
+    ) {
       setShowError(true);
       return;
     }
@@ -121,7 +125,7 @@ function CreateTransactionPage() {
       {showError && (
         <p className="help is-danger is-italic">
           Arquivo não carregado corretamente, vazio ou sem a extensão correta
-          (.csv)
+          (.csv ou .xml)
         </p>
       )}
       {isSuccess && (
