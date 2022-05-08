@@ -10,8 +10,8 @@ config();
 // Dinero.globalLocale = "pt-BR";
 // Dinero.defaultCurrency = "BRL";
 export const SECRET: string = process.env.SECRET_KEY as string;
-export const EMAIL_API_KEY: string = process.env.EMAIL_API_KEY as string;
-export const EMAIL_SECRET_KEY: string = process.env.EMAIL_SECRET_KEY as string;
+export const EMAIL_API_KEY: string = process.env.EMAIL_API_KEY;
+export const EMAIL_SECRET_KEY: string = process.env.EMAIL_SECRET_KEY;
 
 const app = express();
 app.use(cors());
