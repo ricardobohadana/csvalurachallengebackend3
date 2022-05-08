@@ -1,11 +1,11 @@
-import { mailTrapMailProvider } from "../../providers";
+import { mailJetMailProvider, mailTrapMailProvider } from "../../providers";
 import { sqliteUserRepository } from "../../repositories";
 import { CreateUserController } from "./CreateUserController";
 import { CreateUserUseCase } from "./CreateUserUseCase";
 
 const createUserUseCase = new CreateUserUseCase(
   sqliteUserRepository,
-  mailTrapMailProvider
+  mailJetMailProvider
 );
 
 const createUserController = new CreateUserController(createUserUseCase);

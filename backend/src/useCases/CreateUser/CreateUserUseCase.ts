@@ -40,7 +40,7 @@ export class CreateUserUseCase {
       },
       from: {
         email: "cacolorde@gmail.com",
-        name: "Equipe de cadastro de transações",
+        name: "Equipe da Análise de Transações",
       },
       subject: "Cadastro realizado com sucesso! Abra para ver sua senha.",
       message: `<p>Esta é sua senha: <strong>${user.password}</strong></p>`,
