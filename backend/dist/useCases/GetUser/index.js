@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getUserController = exports.getUserUseCase = void 0;
+const repositories_1 = require("../../repositories");
+const GetUserController_1 = require("./GetUserController");
+const GetUserUseCase_1 = require("./GetUserUseCase");
+const getUserUseCase = new GetUserUseCase_1.GetUserUseCase(repositories_1.sqliteUserRepository);
+exports.getUserUseCase = getUserUseCase;
+const getUserController = new GetUserController_1.GetUserController(getUserUseCase);
+exports.getUserController = getUserController;

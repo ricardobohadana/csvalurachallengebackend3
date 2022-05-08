@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getTransactionsController = exports.getTransactionsUseCase = void 0;
+const repositories_1 = require("../../repositories");
+const GetTransactionsController_1 = require("./GetTransactionsController");
+const GetTransactionsUseCase_1 = require("./GetTransactionsUseCase");
+const getTransactionsUseCase = new GetTransactionsUseCase_1.GetTransactionsUseCase(repositories_1.sqliteTransactionRepository);
+exports.getTransactionsUseCase = getTransactionsUseCase;
+const getTransactionsController = new GetTransactionsController_1.GetTransactionsController(getTransactionsUseCase);
+exports.getTransactionsController = getTransactionsController;

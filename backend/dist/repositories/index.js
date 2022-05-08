@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sqliteUserRepository = exports.sqliteTransactionRepository = void 0;
+const prisma_1 = require("../prisma");
+const SqliteTransactionRepository_1 = require("./implementations/SqliteTransactionRepository");
+const SqliteUserRepository_1 = require("./implementations/SqliteUserRepository");
+const sqliteUserRepository = new SqliteUserRepository_1.SqliteUserRepository(prisma_1.prisma);
+exports.sqliteUserRepository = sqliteUserRepository;
+const sqliteTransactionRepository = new SqliteTransactionRepository_1.SqliteTransactionRepository(prisma_1.prisma);
+exports.sqliteTransactionRepository = sqliteTransactionRepository;

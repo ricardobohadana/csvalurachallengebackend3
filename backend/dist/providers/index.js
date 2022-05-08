@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.mailJetMailProvider = exports.mailTrapMailProvider = void 0;
+const app_1 = require("../app");
+const MailJetMailProvider_1 = require("./implementations/MailJetMailProvider");
+const MailTrapMailProvider_1 = require("./implementations/MailTrapMailProvider");
+const mailTrapMailProvider = new MailTrapMailProvider_1.MailTrapMailProvider();
+exports.mailTrapMailProvider = mailTrapMailProvider;
+const mailJetMailProvider = new MailJetMailProvider_1.MailJetMailProvider(app_1.EMAIL_API_KEY, app_1.EMAIL_SECRET_KEY);
+exports.mailJetMailProvider = mailJetMailProvider;
