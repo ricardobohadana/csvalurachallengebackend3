@@ -2,12 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/server.js",
+  "main": "src/server.ts",
   "scripts": {
     "test:unit": "jest",
-    "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
-    "build": "tsc",
-    "start": "node ."
+    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts"
   },
   "keywords": [],
   "author": "",

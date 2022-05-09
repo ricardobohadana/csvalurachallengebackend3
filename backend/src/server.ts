@@ -1,3 +1,3 @@
-import { app } from "./app";
+import { app, PORT } from "./app";
 
-app.listen(3333, () => console.log("API is online"));
+app.listen(PORT || 3333, () => console.log("API is online"));
