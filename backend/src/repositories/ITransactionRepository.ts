@@ -7,9 +7,5 @@ export interface ITransactionRepository {
   selectGroupedTransactions(): Promise<TransactionGroup[]>;
   getByDate(date: Date): Promise<Transaction[]>;
   getAll(): Promise<Transaction[]>;
-  getByUserIdAndDate(
-    userId: string,
-    dataCadastro: Date
-  ): Promise<Transaction[]>;
   getByMonthAndYear(month: number, year: number): Promise<Transaction[]>;
 }

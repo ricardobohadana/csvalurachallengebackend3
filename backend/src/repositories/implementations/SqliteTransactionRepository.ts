@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { Transaction } from "../../entities/Transaction";
 import { TransactionGroup } from "../../models/TransactionGroup";
 import { ITransactionRepository } from "../ITransactionRepository";
@@ -28,21 +28,6 @@ export class SqliteTransactionRepository implements ITransactionRepository {
     );
 
     return filtered;
-  }
-
-  async getByUserIdAndDate(
-    userId: string,
-    dataCadastro: Date
-  ): Promise<Transaction[]> {
-    const date = dataCadastro
-      .toISOString()
-      .replace("/", "-")
-      .replace("T", " ")
-      .replace(".000Z", "");
-
-    const query = Prisma.sql`SELECT * FROM 'Transaction' WHERE dataTransacao=${date}`;
-
-    return (await this.prismaClient.$queryRaw(query)) as Transaction[];
   }
 
   async getAll(): Promise<Transaction[]> {

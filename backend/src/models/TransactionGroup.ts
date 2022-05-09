@@ -1,6 +1,3 @@
-import { User } from "@prisma/client";
-import internal from "stream";
-
 interface ReducedUser {
   id: string;
   name: string;
