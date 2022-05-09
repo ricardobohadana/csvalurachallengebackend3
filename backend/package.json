@@ -6,7 +6,7 @@
   "scripts": {
     "test:unit": "jest",
     "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
-    "postinstall": "tsc",
+    "postinstall": "cd src && npx prisma generate && cd .. && tsc",
     "start": "node dist/server.js"
   },
   "keywords": [],
