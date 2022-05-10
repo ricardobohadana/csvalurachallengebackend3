@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Card } from "../../components/Card";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import { axiosInstance } from "../../global";
@@ -11,6 +11,7 @@ function LoginUserPage() {
   const [isEmailIncorrect, setIsEmailIncorrect] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("placeholder");
+  const loginButtonRef = useRef<HTMLButtonElement | null>(null);
   const router = useRouter();
 
   const {
@@ -39,6 +40,7 @@ function LoginUserPage() {
   }
 
   function handleSubmit() {
+    loginButtonRef.current?.classList.add("is-loading");
     axiosInstance
       .post("/login", {
         email: email,
@@ -49,16 +51,18 @@ function LoginUserPage() {
         console.log(resp.data);
         if (resp.status === 200) {
           setAuthorizationCookie(resp.data.accessToken, resp.data.user);
+          loginButtonRef.current?.classList.remove("is-loading");
         }
       })
       .catch((err) => {
         console.log(err.response.data);
         console.log(err.response.status);
+        loginButtonRef.current?.classList.remove("is-loading");
       });
   }
 
   return (
-    <Card title="Cadastro de usuário">
+    <Card title="Autenticação de usuário">
       <div className="field">
         <label htmlFor="" className="label">
           Email:
@@ -132,6 +136,7 @@ function LoginUserPage() {
         <button
           className="card-footer-item button is-primary"
           onClick={handleSubmit}
+          ref={loginButtonRef}
         >
           Iniciar sessão
         </button>
