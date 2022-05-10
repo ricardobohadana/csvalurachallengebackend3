@@ -28,11 +28,6 @@ export class CreateUserUseCase {
       user.password = "123999";
     }
 
-    await this.usersRepository.save({
-      ...user,
-      password: hashSync(user.password, 10),
-    });
-
     await this.mailTriggerProvider.sendMail({
       to: {
         email: user.email,
@@ -44,6 +39,11 @@ export class CreateUserUseCase {
       },
       subject: "Cadastro realizado com sucesso! Abra para ver sua senha.",
       message: `<p>Esta é sua senha: <strong>${user.password}</strong></p>`,
+    });
+
+    await this.usersRepository.save({
+      ...user,
+      password: hashSync(user.password, 10),
     });
   }
 }

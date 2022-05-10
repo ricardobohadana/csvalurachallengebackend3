@@ -1,14 +1,12 @@
 import { IMailProvider, IMessage } from "../IMailProvider";
-import { connect, Email } from "node-mailjet";
+import { connect } from "node-mailjet";
 
 export class MailJetMailProvider implements IMailProvider {
-  private mailjet: Email.Client;
-
   constructor(private emailApiKey: string, private emailSecretKey: string) {}
 
   async sendMail(message: IMessage): Promise<void> {
-    this.mailjet = connect(this.emailApiKey, this.emailSecretKey);
-    const request = this.mailjet.post("send", { version: "v3.1" }).request({
+    const mailjet = connect(this.emailApiKey, this.emailSecretKey);
+    const request = mailjet.post("send", { version: "v3.1" }).request({
       Messages: [
         {
           From: {
