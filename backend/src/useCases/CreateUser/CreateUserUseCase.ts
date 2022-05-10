@@ -24,9 +24,9 @@ export class CreateUserUseCase {
     const user = new User(data);
 
     // cadastrando o admin
-    // if (user.name === "Admin" && user.email === "admin@email.com.br") {
-    //   user.password = "123999";
-    // }
+    if (user.name === "Admin" && user.email === "admin@email.com.br") {
+      user.password = "123999";
+    }
 
     await this.usersRepository.save({
       ...user,
