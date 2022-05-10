@@ -2,6 +2,7 @@
 
 This application was developed following the best SOLID rules, Clean Code and Clean Architecture concepts.
 It was developed following Alura's 3rd Backend Challenge rules, business logics and demands.
+You can try the app for yourself <a href="https://transactions.up.railway.app/">here</a>
 
 ## Stacks
 ### **Frontend**
