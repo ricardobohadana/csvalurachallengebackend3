@@ -69,8 +69,6 @@ export class CreateTransactionController {
       }
       console.log(listJson);
 
-      throw new Error("Parando aqui!");
-
       await this.createTransactionUseCase.execute(listJson);
 
       return response.status(201).send();

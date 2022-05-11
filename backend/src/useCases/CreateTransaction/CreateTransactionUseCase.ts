@@ -8,6 +8,7 @@ export class CreateTransactionUseCase {
   async execute(data: ICreateTransactionRequestDTO[]) {
     if (data.length === 0)
       throw new Error("Não foram encontradas transações válidas");
+
     // pegando a primeira data válida para comparação
     let minDate = data[0].dataTransacao;
     let i = 1;
