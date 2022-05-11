@@ -88,11 +88,10 @@ function CreateTransactionPage() {
       {successful && (
         <div
           className="notification is-success"
-          onClick={() => setSuccessful(!successful)}
+          onClick={() => setSuccessful(null)}
         >
           <button className="delete"></button>
-          Seu cadastro foi realizado com sucesso! Verifique em seu email a senha
-          que foi enviada para fazer login.
+          As transações foram cadastradas com sucesso!
         </div>
       )}
       <div
